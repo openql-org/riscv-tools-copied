@@ -42,7 +42,7 @@ rm -rf riscv-isa-sim riscv-opcodes
 
 # opcode make
 git clone -b develop-qext https://github.com/openql-org/riscv-opcodes
-cd riscv-openocd
+cd riscv-opcodes
 pip install future
 make
 
