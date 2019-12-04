@@ -56,3 +56,19 @@ cd build
 ../configure  --prefix=/home/siprop/work/riscv/
 make CFLAGS=-DQUEST CPPFLAGS=-DQUEST -j2
 sudo make install
+
+# make llvm
+git clone https://github.com/llvm/llvm-project.git riscv-llvm
+pushd riscv-llvm
+ln -s ../../clang llvm/tools || true
+mkdir _build
+cd _build
+cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
+  -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
+  -DCMAKE_INSTALL_PREFIX="/home/siprop/work/riscv/" \
+  -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
+  -DDEFAULT_SYSROOT="/home/siprop/work/riscv/riscv64-unknown-elf" \
+  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
+  -DLLVM_TARGETS_TO_BUILD="RISCV" \
+  ../llvm
+cmake --build . --target install
