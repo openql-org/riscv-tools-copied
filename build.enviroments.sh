@@ -14,28 +14,23 @@ export RISCV=/home/siprop/work/riscv
 export PATH=$PATH:/home/siprop/work/riscv/bin
 
 # toolchain
-# replace riscv-binutils-gdb
 cd $HOME/work
 git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
 cd riscv-gnu-toolchain
+rm -rf riscv-binutils riscv-gcc
+# enter ID/Password
+git clone -b develop-qext https://github.com/openql-org/riscv-binutils-gdb riscv-binutils
+git clone -b develop-qext https://github.com/openql-org/riscv-gcc riscv-gcc
+
 mkdir build
 cd build
 ../configure --prefix=${RISCV} --enable-multilib
 make -j`nproc`
 
-# quest
-cd $HOME/work/
-git clone https://github.com/openql-org/QuEST
-cd QuEST
-git checkout -b develop-qext origin/develop-qext
-mkdir build
-cd build
-cmake ..
-make 
 
 # riscv-tools
 cd $HOME/work/
-git clone https://github.com/openql-org/riscv-tools
+git clone -b develop-qext https://github.com/openql-org/riscv-tools
 cd riscv-tools
 git submodule update --init --recursive
 rm -rf riscv-isa-sim riscv-opcodes
@@ -50,6 +45,15 @@ make
 cd ../../riscv-tools
 git clone -b develop-qext https://github.com/openql-org/riscv-isa-sim
 cd riscv-isa-sim
+git submodule update --init --recursive
+cd QuEST
+git checkout -b develop-qext origin/develop-qext
+mkdir build
+cd build
+cmake ..
+make 
+
+cd ../../../riscv-isa-sim/
 autoconf
 mkdir build
 cd build
@@ -57,12 +61,22 @@ cd build
 make CFLAGS=-DQUEST CPPFLAGS=-DQUEST -j2
 sudo make install
 
+# pk
+cd $HOME/work/riscv-tools/riscv-pk
+mkdir build
+cd build
+../configure  --prefix=/home/siprop/work/riscv/ --host=riscv64-unknown-elf
+make
+sudo make install
+
+
 # make llvm
+cd $HOME/work/
 git clone https://github.com/llvm/llvm-project.git riscv-llvm
 pushd riscv-llvm
 ln -s ../../clang llvm/tools || true
-mkdir _build
-cd _build
+mkdir build
+cd build
 cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
   -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
   -DCMAKE_INSTALL_PREFIX="/home/siprop/work/riscv/" \
