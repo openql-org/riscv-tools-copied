@@ -74,10 +74,10 @@ sudo make install
 cd $HOME/work/
 git clone https://github.com/llvm/llvm-project.git riscv-llvm
 pushd riscv-llvm
-ln -s ../../clang llvm/tools || true
 mkdir build
 cd build
 cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
+  -DLLVM_ENABLE_PROJECTS=clang \
   -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
   -DCMAKE_INSTALL_PREFIX="/home/siprop/work/riscv/" \
   -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
