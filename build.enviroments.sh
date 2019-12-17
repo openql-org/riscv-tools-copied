@@ -4,7 +4,7 @@
 #
 
 # ubuntu packages install
-sudo apt-get -y install binutils build-essential libtool texinfo gzip zip unzip patchutils curl git make cmake ninja-build automake bison flex gperf grep sed gawk python bc zlib1g-dev libexpat1-dev libmpc-dev libglib2.0-dev libfdt-dev libpixman-1-dev python python-pip gcc libc6-dev pkg-config bridge-utils uml-utilities zlib1g-dev libglib2.0-dev autoconf automake libtool libsdl1.2-dev libpixman-1-dev cmake texinfo bison libbison-dev
+sudo apt-get -y install binutils build-essential libtool texinfo gzip zip unzip patchutils curl git make cmake ninja-build automake bison flex gperf grep sed gawk python bc zlib1g-dev libexpat1-dev libmpc-dev libglib2.0-dev libfdt-dev libpixman-1-dev python python-pip gcc libc6-dev pkg-config bridge-utils uml-utilities zlib1g-dev libglib2.0-dev autoconf automake libtool libsdl1.2-dev libpixman-1-dev cmake texinfo bison libbison-dev liboscpack1 liboscpack-dev
 
 # make working dirs
 cd $HOME
@@ -58,7 +58,7 @@ autoconf
 mkdir build
 cd build
 ../configure  --prefix=/home/siprop/work/riscv/
-make CFLAGS=-DQUEST CPPFLAGS=-DQUEST -j2
+make CFLAGS=-DQUEST CPPFLAGS=-DQUEST -j`nproc`
 sudo make install
 
 # pk
