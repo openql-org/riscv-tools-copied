@@ -35,13 +35,7 @@ cd riscv-tools
 git submodule update --init --recursive
 rm -rf riscv-isa-sim riscv-opcodes
 
-# opcode make
-git clone -b develop-qext https://github.com/openql-org/riscv-opcodes
-cd riscv-opcodes
-pip install future
-make
-
-# spike make
+# quest make
 cd ../../riscv-tools
 git clone -b develop-qext https://github.com/openql-org/riscv-isa-sim
 cd riscv-isa-sim
@@ -53,6 +47,14 @@ cd build
 cmake ..
 make 
 
+# opcode make
+cd ../../../
+git clone -b develop-qext https://github.com/openql-org/riscv-opcodes
+cd riscv-opcodes
+pip install future
+make
+
+# spike main
 cd ../../../riscv-isa-sim/
 autoconf
 mkdir build
