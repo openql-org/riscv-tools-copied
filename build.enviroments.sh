@@ -55,7 +55,7 @@ pip install future
 make
 
 # spike main
-cd ../../../riscv-isa-sim/
+cd ../riscv-isa-sim/
 autoconf
 mkdir build
 cd build
