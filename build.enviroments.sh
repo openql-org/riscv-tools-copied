@@ -12,6 +12,7 @@ mkdir -p work/riscv
 mkdir -p work/riscv/bin
 export RISCV=/home/siprop/work/riscv
 export PATH=$PATH:/home/siprop/work/riscv/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/siprop/work/riscv/lib
 
 # toolchain
 cd $HOME/work
