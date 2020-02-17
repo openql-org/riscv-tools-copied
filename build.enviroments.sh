@@ -4,15 +4,15 @@
 #
 
 # ubuntu packages install
-sudo apt-get -y install binutils build-essential libtool texinfo gzip zip unzip patchutils curl git make cmake ninja-build automake bison flex gperf grep sed gawk python bc zlib1g-dev libexpat1-dev libmpc-dev libglib2.0-dev libfdt-dev libpixman-1-dev python python-pip gcc libc6-dev pkg-config bridge-utils uml-utilities zlib1g-dev libglib2.0-dev autoconf automake libtool libsdl1.2-dev libpixman-1-dev cmake texinfo bison libbison-dev liboscpack1 liboscpack-dev
+apt-get install -y build-essential device-tree-compiler binutils build-essential libtool texinfo gzip zip unzip patchutils curl git make cmake ninja-build automake bison flex gperf grep sed gawk python bc zlib1g-dev libexpat1-dev libmpc-dev libglib2.0-dev libfdt-dev libpixman-1-dev python python-pip gcc libc6-dev pkg-config bridge-utils uml-utilities zlib1g-dev libglib2.0-dev autoconf automake libtool libsdl1.2-dev libpixman-1-dev cmake texinfo bison libbison-dev liboscpack1 liboscpack-dev
 
 # make working dirs
 cd $HOME
 mkdir -p work/riscv
 mkdir -p work/riscv/bin
-export RISCV=/home/siprop/work/riscv
-export PATH=$PATH:/home/siprop/work/riscv/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/siprop/work/riscv/lib
+export RISCV=$HOME/work/riscv
+export PATH=$PATH:$HOME/work/riscv/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/work/riscv/lib
 
 # toolchain
 cd $HOME/work
@@ -37,7 +37,6 @@ git submodule update --init --recursive
 rm -rf riscv-isa-sim riscv-opcodes
 
 # quest make
-cd ../../riscv-tools
 git clone -b develop-qext https://github.com/openql-org/riscv-isa-sim
 cd riscv-isa-sim
 git submodule update --init --recursive
@@ -60,7 +59,7 @@ cd ../riscv-isa-sim/
 autoconf
 mkdir build
 cd build
-../configure  --prefix=/home/siprop/work/riscv/
+../configure  --prefix=$HOME/work/riscv/
 make CFLAGS=-DQUEST CPPFLAGS=-DQUEST -j`nproc`
 sudo make install
 
@@ -68,7 +67,7 @@ sudo make install
 cd $HOME/work/riscv-tools/riscv-pk
 mkdir build
 cd build
-../configure  --prefix=/home/siprop/work/riscv/ --host=riscv64-unknown-elf
+../configure  --prefix=$HOME/work/riscv/ --host=riscv64-unknown-elf
 make
 sudo make install
 
@@ -82,9 +81,9 @@ cd build
 cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
   -DLLVM_ENABLE_PROJECTS=clang \
   -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
-  -DCMAKE_INSTALL_PREFIX="/home/siprop/work/riscv/" \
+  -DCMAKE_INSTALL_PREFIX=$HOME/work/riscv/ \
   -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
-  -DDEFAULT_SYSROOT="/home/siprop/work/riscv/riscv64-unknown-elf" \
+  -DDEFAULT_SYSROOT=$HOME/work/riscv/riscv64-unknown-elf \
   -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
   -DLLVM_TARGETS_TO_BUILD="RISCV" \
   ../llvm
